@@ -1,0 +1,114 @@
+<html>
+  <head>
+    <style>
+      #result {
+        font-size: 20px;
+        font-weight: bold;
+        padding: 20px;
+        text-align: center;
+      }
+      .hide{
+        display: none;
+      }
+      .show{
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="result">Enter the maximum number</div>
+    <div id="maxNumWrapper" style="text-align: center;">
+      <input type="text" id="maxNumber" />
+      <button id="maxSubmit" type="submit" >Submit</button>
+    </div>
+    <br>
+    <div id="guessNumWrapper" class="hide" style="text-align: center;">
+      <input type="text" id="guess" />
+      <button id="submit" type="submit">Guess</button>
+    </div>
+    <script>
+      const resultDiv = document.getElementById("result");
+      const guessInput = document.getElementById("guess");
+      const maxNumInput = document.getElementById("maxNumber");
+      const submitButton = document.getElementById("submit");
+      const maxSubmitButton = document.getElementById("maxSubmit");
+      const maxNumWrapper = document.getElementById("maxNumWrapper");
+      const guessNumWrapper = document.getElementById("guessNumWrapper");
+
+      var maxNumber = 0;
+      var correctNumber = 0;
+      var guesses = [];
+
+      maxSubmitButton.addEventListener("click", function () {
+        maxNumber = parseInt(Math.round(maxNumInput.value, 0));
+
+        if(isNaN(maxNumber) || maxNumber == null || maxNumber == undefined){
+          resultDiv.innerHTML = "That is not a number!";
+          return;
+        }
+
+        
+        if(maxNumber < 1){
+          resultDiv.innerHTML = "Please enter a positive number greater than 0.";
+        } else {
+          maxNumWrapper.classList.add("hide");
+          guessNumWrapper.classList.remove("hide");
+          guessNumWrapper.classList.add("show");
+          resultDiv.innerHTML = "Please enter your guess number between 1 and " + maxNumber;
+          correctNumber = Math.floor(Math.random() * maxNumber) + 1;
+        }
+      });
+
+
+      submitButton.addEventListener("click", function () {
+        let guess = parseInt(guessInput.value);
+
+        if(isNaN(guess) || guess == null || guess == undefined){
+          resultDiv.innerHTML = "That is not a number!";
+          return;
+        }
+
+        if(guess < 1 || guess > maxNumber){
+          resultDiv.innerHTML = "That number is not in range, try again.";
+        }
+        
+        else if(guesses.indexOf(guess) == -1){
+          guesses.push(guess);
+
+          if(guess == correctNumber){
+            resultDiv.innerHTML = "You got it! It took you " + 
+            guesses.length + " tries and your guesses were " + guesses.join(", ").toString();
+
+          }
+          else if(guess > correctNumber){
+            resultDiv.innerHTML = "That number is too high, try lower.";
+          }
+          else if(guess < correctNumber){
+            resultDiv.innerHTML = "That number is too low, try higher.";
+          }
+        }
+        else{
+          resultDiv.innerHTML = "You have already tried that number. Try a different one";
+        }
+      });
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
